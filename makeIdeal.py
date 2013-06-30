@@ -33,10 +33,8 @@ for well in wellList:
         try:
             actorAndWell = [a for a in existingGraph[actor] if a[0] == wellName]
             assert( len(actorAndWell)==0 or len(actorAndWell) == 1)
-            if len(actorAndWell) == 0:
-                raise Exception("Basically a goto to the except block")
             defaultAmount = (actorAndWell[0])[2]
-        except (Exception,KeyError):
+        except (IndexError,KeyError):
             defaultAmount = 0
         str_amount = input(actor+" : ["+str(defaultAmount)+"]")
         if str_amount or defaultAmount:
