@@ -15,3 +15,7 @@ ideal.dict: actors.list wells.list
 
 ideal.pdf: ideal.dict
 	python3 dict2dot.py ideal.dict |neato -T pdf > ideal.pdf
+
+balance.list: ideal.dict real.dict
+	python3 makeBalance.py
+
