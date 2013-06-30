@@ -10,7 +10,12 @@ with open('wells.list', mode='r', encoding='utf-8') as f:
 with open('actors.list', mode='r', encoding='utf-8') as f:
     actorList = json.load(f)
 
-
+try:
+    f = open('ideal.dict','r',encoding='utf-8')
+    existingGraph = json.load(f)
+except FileNotFoundError:
+    existingGraph = {}
+    
 graph = {}
 
 for actor in actorList:
@@ -25,9 +30,17 @@ for well in wellList:
     total = 0.
     partGraph = {}
     for actor in actorList:
-        str_amount = input(actor+" : ")
-        if str_amount:
-            amount = float(str_amount)
+        try:
+            actorAndWell = [a for a in existingGraph[actor] if a[0] == wellName]
+            assert( len(actorAndWell)==0 or len(actorAndWell) == 1)
+            if len(actorAndWell) == 0:
+                raise Exception("Basically a goto to the except block")
+            defaultAmount = (actorAndWell[0])[2]
+        except (Exception,KeyError):
+            defaultAmount = 0
+        str_amount = input(actor+" : ["+str(defaultAmount)+"]")
+        if str_amount or defaultAmount:
+            amount = float(str_amount) if str_amount else defaultAmount
             partGraph[actor] = amount
             total += amount
     for actor in partGraph:
