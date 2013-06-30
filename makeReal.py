@@ -10,6 +10,11 @@ with open('wells.list', mode='r', encoding='utf-8') as f:
 with open('actors.list', mode='r', encoding='utf-8') as f:
     actorList = json.load(f)
 
+try:
+    f = open('real.dict','r',encoding='utf-8')
+    existingGraph = json.load(f)
+except FileNotFoundError:
+    existingGraph = {}
 
 graph = {}
 
@@ -26,9 +31,15 @@ for well in wellList:
            BOLD+"{:.2f}".format(wellAmount/100.)+ENDBOLD)
     total = 0
     for actor in actorList:
-        str_amount = input(actor+" : ")
-        if str_amount:
-            amount = int(str_amount)
+        try:
+            actorAndWell = [a for a in existingGraph[actor] if a[0] == wellName]
+            assert( len(actorAndWell)==0 or len(actorAndWell) == 1)
+            defaultAmount = (actorAndWell[0])[1]
+        except (IndexError,KeyError):
+            defaultAmount = 0
+        str_amount = input(actor+" : ["+str(defaultAmount)+"]")
+        if str_amount or defaultAmount:
+            amount = int(str_amount) if str_amount else defaultAmount 
             graph[actor].append([wellName,amount])
             total += amount
     assert(total == wellAmount)
