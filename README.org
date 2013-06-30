@@ -3,6 +3,7 @@
 * Purpose
   This is a little software that allows one to compute how to share expenses.
 * Name
-  The name comes from [[http://www.youtube.com/watch?v=e-MBjjlt9g4][this sketch]] by French artist Muriel Robin. The software solves the problem the character is struggling with.
+  The name comes from [[http://www.youtube.com/watch?v=e-MBjjlt9g4][this skit]] by french artist Muriel Robin. The software solves the problem the character is struggling with.
 * Usage
   To be written.
+  
